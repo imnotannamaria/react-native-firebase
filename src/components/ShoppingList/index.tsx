@@ -13,6 +13,12 @@ export function ShoppingList() {
   useEffect(() => {
     const subscribe = firestore()
     .collection('products')
+
+    //do menor para o maior (ordem alfabetica)
+    .orderBy('description')
+    //maior para o menor
+    //.orderBy('description', 'desc')
+
     //.limit(3)
     //.where('quantity', '==', 1)
     .onSnapshot(querySnapshot => {
