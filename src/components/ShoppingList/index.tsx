@@ -11,9 +11,9 @@ export function ShoppingList() {
   const [products, setProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
-    firestore().
-    collection('products').
-    get()
+    firestore()
+    .collection('products')
+    .get()
     .then(response => {
       const data = response.docs.map(doc => {
         return {
@@ -25,6 +25,18 @@ export function ShoppingList() {
       setProducts(data);
     })
     .catch(error => console.log(error));
+  }, []);
+
+  //Fazendo leitura de um únido documento utilizando o id
+  useEffect(() => {
+    firestore()
+    .collection('products')
+    .doc('9FCJD223D4CkOpKDyrvv')
+    .get()
+    .then(response => console.log({
+      id: response.id,
+      ...response.data(),
+    }))
   }, []);
 
   return (
