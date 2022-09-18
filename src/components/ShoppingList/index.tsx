@@ -11,20 +11,20 @@ export function ShoppingList() {
   const [products, setProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
-    firestore()
+    const subscribe = firestore()
     .collection('products')
-    .get()
-    .then(response => {
-      const data = response.docs.map(doc => {
+    .onSnapshot(querySnapshot => {
+      const data = querySnapshot.docs.map((doc) => {
         return {
           id: doc.id,
-          ...doc.data(),
+          ...doc.data()
         }
       }) as ProductProps[];
 
       setProducts(data);
+
+      return () => subscribe();
     })
-    .catch(error => console.log(error));
   }, []);
 
   //Fazendo leitura de um únido documento utilizando o id
