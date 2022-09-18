@@ -14,16 +14,26 @@ export function SignIn() {
 
   async function handleSignInAnonymously() {
     const { user } = await auth().signInAnonymously();
-
-    console.log(user);
   }
 
   function handleCreateUserAccount() {
     auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      Alert.alert('Usuário criado com sucesso!');
-    })
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => Alert.alert('Usuário criado com sucesso!'))
+      .catch(error => {
+        console.log(error.code)
+        if(error.code === 'auth/email-already-in-use') {
+          return Alert.alert('😢 E-mail já cadastrado!');
+        }
+
+        if(error.code === 'auth/invalid-email') {
+          return Alert.alert('😢 E-mail inválido!');
+        }
+
+        if(error.code === 'auth/weak-password') {
+          return Alert.alert('😢 Senha inválida! a senha deve ter no mínimo 6 digitos');
+        }
+      })
   }
 
   return (
