@@ -34,7 +34,10 @@ export function Upload() {
   async function handleUpload() {
     const fileName = new Date().getTime();
 
-    const reference = storage().ref(`/images/${fileName}.png`);
+    // pega o final da uri da imagem ou seja a extenção da imagem
+    const MIME = image.match(/\.(?:.(?!\.))+$/);
+
+    const reference = storage().ref(`/images/${fileName}${MIME}`);
 
     const uploadTask = reference.putFile(image);
 
